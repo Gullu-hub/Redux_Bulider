@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAction, editAction } from './Action';
+import { deleteAction, editAction } from '../Component/Redus/Action';
+import './Display.css';
 
 const Display = () => {
   const data = useSelector((store) => store.users || []);
@@ -11,21 +12,34 @@ const Display = () => {
   }
 
   function editData(i) {
-    const newValue = prompt('Enter New Value');
+    const newValue = prompt('Enter New Username');
     if (newValue) {
       dispatch(editAction(i, newValue));
     }
   }
 
   return (
-    <div>
-      {data.map((el, i) => (
-        <div key={i}>
-          <li>{el.username}</li>
-          <button onClick={() => deleteData(i)}>Delete</button>
-          <button onClick={() => editData(i)}>Edit</button>
-        </div>
-      ))}
+    <div className="display-container">
+      <h2 className="title">User List</h2>
+
+      {data.length === 0 ? (
+        <p className="empty">No users found</p>
+      ) : (
+        data.map((el, i) => (
+          <div key={i} className="user-card">
+            <span className="username">{el.username}</span>
+
+            <div className="actions">
+              <button className="edit-btn" onClick={() => editData(i)}>
+                Edit
+              </button>
+              <button className="delete-btn" onClick={() => deleteData(i)}>
+                Delete
+              </button>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };
